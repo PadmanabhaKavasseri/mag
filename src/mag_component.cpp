@@ -1,9 +1,18 @@
-#include "/home/rosws/src/qrb_ros_mag/include/mag_component.hpp"
+#include "qrb_ros_mag/mag_component.hpp"
 
+
+#include <chrono>
+#include <functional>
+#include <memory>
 #include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/magnetic_field.hpp>
+#include <thread>
 
-
-MagComponent::MagComponent() : Node("minimal_publisher")
+namespace qrb
+{
+namespace ros
+{
+MagComponent::MagComponent(const rclcpp::NodeOptions& options) : Node("mag_node", options)
 {
     int i = 0;
     if(!sensor_client_.CreateConnection()){
@@ -64,3 +73,5 @@ int main(int argc, char **argv) {
     rclcpp::shutdown();
     return 0;
 }
+}  // namespace ros
+}  // namespace qrb
