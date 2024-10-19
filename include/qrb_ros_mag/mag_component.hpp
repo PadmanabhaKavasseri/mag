@@ -21,13 +21,13 @@ class MagComponent: public rclcpp::Node
 {
 public:
   bool is_working;
-  MagComponent(const rclcpp::NodeOptions& options);
+  explicit MagComponent(const rclcpp::NodeOptions& options);
   ~MagComponent();
   
 private:
   bool init();
   void connect_success();
-  void retry_conection();
+  void retry_connection();
   void publish_msg();
   SensorClient sensor_client_;
   rclcpp::Publisher<TOPIC_TYPE>::SharedPtr publisher_;
