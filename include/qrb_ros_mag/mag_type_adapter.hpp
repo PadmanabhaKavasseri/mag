@@ -2,7 +2,6 @@
  * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
  * SPDX-License-Identifier: BSD-3-Clause-Clear
  */
-
 #ifndef QRB_ROS_MAG__MAG_TYPE_ADAPTER_HPP_
 #define QRB_ROS_MAG__MAG_TYPE_ADAPTER_HPP_
 

@@ -19,7 +19,6 @@ namespace qrb
 {
 namespace ros
 {
-
 MagComponent::MagComponent(const rclcpp::NodeOptions& options) : Node("mag_node", options)
 {
   retry_ = 0;
@@ -127,20 +126,6 @@ void MagComponent::publish_msg()
     }
   }
 }    
-int main(int argc, char **argv) {
-    // Initialize the ROS 2 system
-    rclcpp::init(argc, argv);
-
-    // Create an instance of MagComponent
-    auto mag = std::make_shared<MagComponent>();
-
-    // Spin the node
-    rclcpp::spin(mag);
-
-    // Shutdown the ROS 2 system
-    rclcpp::shutdown();
-    return 0;
-}
 }  // namespace ros
 }  // namespace qrb
 
