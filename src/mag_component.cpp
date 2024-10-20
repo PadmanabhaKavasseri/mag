@@ -31,6 +31,7 @@ MagComponent::MagComponent(const rclcpp::NodeOptions& options) : Node("mag_node"
   } else {
     RCLCPP_INFO(this->get_logger(), "mag component running...");
   }
+  RCLCPP_INFO(this->get_logger(), "Here1\n");
 }
 
 MagComponent::~MagComponent()
@@ -52,7 +53,7 @@ bool MagComponent::init()
                                      std::bind(&MagComponent::retry_connection, this));
     return false;
   }
-
+  RCLCPP_INFO(this->get_logger(), "Here2\n");
   connect_success();
   return true;
 }
@@ -68,6 +69,7 @@ void MagComponent::connect_success()
   publisher_ = this->create_publisher<TOPIC_TYPE>(TOPIC_NAME, 30, pub_options);
   thread_publish_msg_ =
       std::make_shared<std::thread>(std::mem_fn(&MagComponent::publish_msg), this);
+  RCLCPP_INFO(this->get_logger(), "Here3\n");
 }
 
 void MagComponent::retry_connection()
@@ -98,8 +100,9 @@ void MagComponent::publish_msg()
   std::unique_ptr<qrb::ros::MagTypeAdapter> container;
   long time_nanosec;
   long long latency_sum = 0;
-
+  RCLCPP_INFO(this->get_logger(), "Here4\n");
   while (running_) {
+    RCLCPP_INFO(this->get_logger(), "Here5\n");
     pack_num = 0;
     this->get_parameter("debug", debug_);
     if (!sensor_client_.GetMagData(&mag_ptr, &pack_num)) {
@@ -108,10 +111,22 @@ void MagComponent::publish_msg()
         RCLCPP_DEBUG(this->get_logger(), "thread will sleep 2 ms");
         std::this_thread::sleep_for(std::chrono::microseconds(2000));
       }
+      RCLCPP_INFO(this->get_logger(), "Here6\n");
       continue;
     }
     for (i = 0; i < pack_num; i++) {
+      RCLCPP_INFO(this->get_logger(), "Here7\n");
+      if(!mag_ptr){
+        RCLCPP_INFO(this->get_logger(), "Problem idenified\n");
+      }else{
+        sensors_event_t data_mag;
+        data_mag = *mag_ptr;
+        RCLCPP_INFO(this->get_logger(), "[sensor_client_test] mag time: %ld x: %f y: %f z: %f mag reserved0: %d",
+            data_mag.timestamp, data_mag.magnetic.x, data_mag.magnetic.y, data_mag.magnetic.z, data_mag.reserved0);
+      }
+      RCLCPP_INFO(this->get_logger(), "Here7.5\n");
       container = std::make_unique<qrb::ros::MagTypeAdapter>(*mag_ptr);
+      RCLCPP_INFO(this->get_logger(), "Here8\n");
       if (debug_) {
         time_nanosec = (get_clock()->now()).nanoseconds();
         latency_sum += time_nanosec - mag_ptr->timestamp;

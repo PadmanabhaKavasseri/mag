@@ -22,7 +22,7 @@ public:
 
   MagTypeAdapter(const sensors_event_t& mag_event);
 
-  MagTypeAdapter(){};//? what is this for?
+  // MagTypeAdapter(){};//? what is this for?
 
   std_msgs::msg::Header header; //should be header_
   sensors_event_t* sensor_ptr; //should be sensor_ptr_
