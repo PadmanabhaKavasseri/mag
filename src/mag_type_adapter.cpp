@@ -18,6 +18,7 @@ namespace ros
 {
 MagTypeAdapter::MagTypeAdapter(const sensors_event_t& mag_event)
 {
+  RCLCPP_INFO(rclcpp::get_logger("QTI_MAG"), "Here9\n");
   if (mag_event.timestamp == 0) {
     RCLCPP_ERROR(rclcpp::get_logger("QTI MAG"), "data error");
   }
@@ -26,14 +27,16 @@ MagTypeAdapter::MagTypeAdapter(const sensors_event_t& mag_event)
   header.stamp.sec = mag_event.timestamp / 1000000000LL;
   
   header.frame_id = "magnetic_field";
-  sensors_event_t* ptr = sensor_ptr;
-  *ptr = mag_event;
-
+  // sensors_event_t* ptr = sensor_ptr;
+  // *ptr = mag_event;
+  sensor_ptr = mag_event;
+  RCLCPP_INFO(rclcpp::get_logger("QTI_MAG"), "Here10\n");
 }
 
 MagTypeAdapter::MagTypeAdapter(const sensor_msgs::msg::MagneticField& sensor_msgs_mag)
 {
-  sensors_event_t* mag = sensor_ptr;
+  RCLCPP_INFO(rclcpp::get_logger("QTI_MAG"), "Here11\n");
+  sensors_event_t* mag = &sensor_ptr;
   
   header.stamp = sensor_msgs_mag.header.stamp;
   header.frame_id = sensor_msgs_mag.header.frame_id;
@@ -43,6 +46,7 @@ MagTypeAdapter::MagTypeAdapter(const sensor_msgs::msg::MagneticField& sensor_msg
   mag->magnetic.x = sensor_msgs_mag.magnetic_field.x;
   mag->magnetic.y = sensor_msgs_mag.magnetic_field.x;
   mag->magnetic.z = sensor_msgs_mag.magnetic_field.x;
+  RCLCPP_INFO(rclcpp::get_logger("QTI_MAG"), "Here12\n");
 }
 
 }  // namespace ros

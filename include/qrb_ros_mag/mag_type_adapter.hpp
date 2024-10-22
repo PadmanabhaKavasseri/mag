@@ -25,7 +25,8 @@ public:
   // MagTypeAdapter(){};//? what is this for?
 
   std_msgs::msg::Header header; //should be header_
-  sensors_event_t* sensor_ptr; //should be sensor_ptr_
+  sensors_event_t sensor_ptr; //should be sensor_ptr_  = sensor_ptr[1] 
+
 };
 } // namespace ros
 } // namespace qrb
@@ -41,9 +42,9 @@ struct rclcpp::TypeAdapter<qrb::ros::MagTypeAdapter, sensor_msgs::msg::MagneticF
   {
     destination.header = source.header;
 
-    destination.magnetic_field.x = source.sensor_ptr->magnetic.x;
-    destination.magnetic_field.y = source.sensor_ptr->magnetic.y;
-    destination.magnetic_field.z = source.sensor_ptr->magnetic.z;
+    destination.magnetic_field.x = source.sensor_ptr.magnetic.x;
+    destination.magnetic_field.y = source.sensor_ptr.magnetic.y;
+    destination.magnetic_field.z = source.sensor_ptr.magnetic.z;
 
   }
 

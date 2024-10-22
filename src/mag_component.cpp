@@ -115,7 +115,7 @@ void MagComponent::publish_msg()
       continue;
     }
     for (i = 0; i < pack_num; i++) {
-      RCLCPP_INFO(this->get_logger(), "Here7\n");
+      RCLCPP_INFO(this->get_logger(), "Here7 : %d:\n", pack_num);
       if(!mag_ptr){
         RCLCPP_INFO(this->get_logger(), "Problem idenified\n");
       }else{
